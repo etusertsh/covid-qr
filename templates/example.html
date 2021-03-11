@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/bootstrap-4.4.1.min.css?v=1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>臺北科技大學 防疫期間通行證</title>
+	<link rel="stylesheet" href="css/web.css">
+	<style>
+		body {
+  		min-height: 75rem;
+  		padding-top: 2.5rem; /*4.5rem;*/
+  		font-family: 微軟正黑體; 'Microsoft JhengHei', sans-serif;
+	}
+	.lics{
+		list-style-position: inside;
+		text-indent: -2em;
+	}
+	.gototop {
+		width:50px;
+		height:50px;
+		line-height:40px;
+		text-align:center;
+		background:#F63E3E;
+		color:#fff;
+		position:fixed;
+		bottom:20px;
+		right:30px;
+		border-radius:50%;
+		text-decoration:none;
+		cursor: pointer;
+		display:none;
+		z-index: 100000;
+		opacity: .60;
+   	    filter: alpha(opacity=60);
+    }
+    .gototop:hover {
+    	color:white;
+    }
+	</style>
+</head>
+<body>
+<button type="button" class="btn btn-default gototop"> <i class="fas fa-chevron-up"></i> Top</button>
+
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    	<a class="navbar-brand" href="ApplyTempPass">臺北科技大學 防疫期間通行證</a>
+    </nav>
+</div>
+
+<div id="fillForm">
+	<form id="qnrForm" method="post">
+		<input type="hidden" name="op" value="0">
+		<div class="container">
+			
+			<div class="alert alert-success" role="alert">
+	  			<h5 class="alert-heading"><strong>臺北科技大學 校園新冠肺炎健康關懷問卷 NTUT COVID-19 Survey</strong></h5>
+	  			<p>您好，為因應「新冠肺炎」疫情，請協助我們填寫下列資料，並詳細閱讀注意事項。
+	  			本校基於COVID-19防疫及事後追蹤需求，必須取得您的個人資料，個資當事人不得拒絕提供資料，並應確認資料正確性，如未提供個人資料，不得進入本校。
+	  			</p>
+			</div>
+	        
+	        <div class="row">
+	        	<div class="col-md-12">
+	        		  <div id="fillCheck"></div>
+	        		  <div id="fillResult"></div>
+	        	</div>
+	        </div>
+
+	    	<div class="firstFill row"  id="scroTo1">
+	        <div class="col-md-12">
+	        	<span class="anchor" id="formUserEdit"></span>
+	        	
+	        	<!-- 資料保護告知事項 -->
+				<div class="accordion" id="accordionExample">
+					<div class="card">
+						<div class="card-header" id="headingOne">
+							<h2 class="mb-0">
+							<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	          				<i class="far fa-hand-point-right"></i> 防疫期間校園通行個人資料保護告知事項
+	        				</button>
+							</h2>
+						</div>
+						
+						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+							<div class="card-body">
+								<p>您好，為因應「新冠肺炎」疫情，進入校園前請協助填寫個人資料，為保障您的權益，特此向您告知以下事項：</p>	
+								<ul style="list-style-type:none;">
+									<li class="lics">一、蒐集機關：國立臺北科技大學。</li>
+									<li class="lics">二、蒐集之目的：防疫目的，依據「個人資料保護法之特定目的及個人資料之類別」為代號012公共衛生或傳染病防治之特定目的，且不得為目的外利用。</li>
+									<li class="lics">三、蒐集之個人資料項目：姓名、手機號碼。</li>
+									<li class="lics">四、個人資料利用之期間：自蒐集日起28日內。</li>
+									<li class="lics">五、個人資料利用之對象及方式：為防堵疫情而有必要時，得提供衛生主管機關依傳染病防治法等規定進行疫情調查及聯繫使用。</li>
+									<li class="lics">六、您得依個人資料保護法第3條規定，就您的個人資料向本校行使權利，包括：查詢或請求閱覽、請求製給複製本、請求補充或更正、請求停止蒐集、處理或利用、請求刪除。行使方式為填妥「當事人權利行使申請書」，並檢附相關證明文件親自持送或郵寄本校(秘書室)。如本人無法親自提出申請，得委由代理人為之。委由代理人申請時，應另出具「委託書」及雙方之證明文件。</li>
+									<li class="lics">七、若不同意提供個人資料，將無法進入校園。</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+	            <!-- form user info -->
+	            <div class="card card-outline-secondary mt-2">
+	                <div class="card-header">
+	                    <h5 class="mb-0">基本資料 Basic information</h5>
+	                </div>
+	  
+	                <div class="card-body">
+	                
+	                	<!-- 聯絡手機 -->
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">手機號碼 <span class="font-italic text-muted">Contact mobile phone</span></label>
+							<div class="col-lg-9">
+								<input class="form-control" type="tel" name="mobile_phone"  value="" placeholder="">
+								<small id="mobile_phoneHelp" class="form-text text-danger"><strong>範例：0912345678，限填台灣地區手機號碼</strong></small>						
+							</div>
+						</div>
+						
+	                	<!-- 訪客姓名 -->
+	  					<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">訪客姓名 <span class="font-italic text-muted">Visitor name</span></label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" name="cname"  value="" placeholder="">
+								<small id="cnameHelp" class="form-text text-muted"><strong>出現「下列文字非big5編碼文字...」訊息時，難字可以用*表示</strong></small>
+							</div>
+						</div>
+	
+						<!-- 來訪目的 -->
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">來訪目的 <span class="font-italic">Purpose of your visit</span></label>
+							<div class="col-lg-9">
+								<div class="form-check">
+	  								<label class="form-check-label">
+										<input type="checkbox" class="form-check-input" name="reason1" value="Y">洽公 <span class="font-italic text-muted">for business</span>
+									</label>
+								</div>
+								<div class="form-check">
+	  								<label class="form-check-label">
+										<input type="checkbox" class="form-check-input" name="reason2" value="Y">理髮 <span class="font-italic text-muted">hair Salon</span>
+									</label>
+								</div>
+								<div class="form-check">
+	  								<label class="form-check-label">
+										<input type="checkbox" class="form-check-input" name="reason3" value="Y">用餐 <span class="font-italic text-muted">have a meal</span>
+									</label>
+								</div>
+								<div class="form-check">
+	  								<label class="form-check-label">
+										<input type="checkbox" class="form-check-input" name="reason4" value="Y">休閒 <span class="font-italic text-muted">for leisure</span>
+									</label>
+								</div>
+								<div class="form-check-inline">
+	  								<label class="form-check-label">
+										<input type="checkbox" class="form-check-input"  name="reason5" value="Y">其他 <span class="font-italic text-muted">others</span>
+										<input  type="text" name="reason"  value="" style="border: none;border-bottom: 1px solid #555;text-align:center;" placeholder="請填寫其他事由">
+									</label>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 驗證碼圖形 -->
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">驗證碼 <span class="font-italic">Code</span></label>
+							<div class="col-lg-9">
+								<div class="input-group mt-3 mb-3">
+									<img id="randomCodeImg" /> <!-- src='GetRandomCodeImage' -->
+									<div class="input-group-append ml-3">
+										<button type="button" id="changeRandomCode" class="btn btn-success">換一張</button>
+									</div>
+								</div>						
+							</div>
+						</div>
+	
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">請輸入上圖驗證碼 <span class="font-italic"></span></label>
+							<div class="col-lg-9">
+								<input class="form-control" type="tel" id="randomCode" name="randomCode" placeholder="4碼均為數字">					
+							</div>
+						</div>
+	
+						<div class="form-group row">
+							<div class="col-lg-12  text-center">
+								<div class="custom-control custom-checkbox ">
+	    							<input type="checkbox" class="custom-control-input" id="agree" name="agree" value="Y">
+	    							<label class="custom-control-label" for="agree">本人已確認上述個人資料正確性，並充份瞭解上開告知事項內容。</label>
+	  							</div>
+	  						</div>
+						</div>
+	
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label"></label>
+	                        <div class="col-lg-9">
+	                            <input type="button" id="bsend" class="btn btn-info btn-block" value="送出">
+	                        </div>
+						</div>
+	                </div><!-- end of cardbody -->
+	            </div><!-- form user info -->
+			</div><!--col-->
+			</div>
+	</div><!--container-->
+	</form>
+</div>
+
+<form action="LogOut" id="LogOut" method="post"></form>
+
+<!-- jQuery library -->
+<script src="js/jquery.min.js?v=1"></script>
+<script src="js/bootstrap.min.js?v=1"></script>
+<script src="js/sweetalert2.all.min.js?v=1"></script>
+<script src="js/jquery.blockUI.js"></script>
+<script src="js/all.min.js"></script>
+<!-- <script src="js/fillQnrOutSchCheckIdent.js?v=20200513v4"></script>無法驗證時 -->
+<script src="js/fillQnrOutSchCheckIdent2.js?v=20200708v1"></script>
+<!-- <script type="text/javascript" src="https://font.ntut.edu.tw/wfs/js/lib/wfs.js"></script> -->
+
+<script type="text/javascript">
+window.history.forward(1);
+
+$( document ).ready(function() {
+	
+	// Start 
+	// do $("#callModal2").click();
+	$(".firstFill" ).show();
+	var random = Math.random();
+	$('#randomCodeImg').attr("src", 'GetRandomCodeImage?cd='+random);
+	// END
+
+	$("input[name='reason5']").change(function() {
+		if ($(this).is(':checked')) {
+			$("input[name='reason']").focus();
+		}
+	});
+	
+	// change img
+	$('#changeRandomCode').click(function() {
+		  var random = Math.random();
+		$('#randomCodeImg').attr("src", 'GetRandomCodeImage?cd='+random);
+	});	
+
+	$(window).scroll(function(){
+	    var scroll = $(window).scrollTop();
+	    if( scroll >= 10){
+	      $(".gototop").fadeIn();
+	    }else{
+	      $(".gototop").fadeOut();
+	    }
+	});
+	$('.gototop').click(function(){
+		$('html,body').animate({
+			scrollTop:$('html').offset().top
+		})
+	});
+
+	// send data
+	$('#bsend').click(function() {
+		// block ALL 
+		$.blockUI(
+				{ css: { 
+		            border: 'none', 
+		            padding: '15px', 
+		            backgroundColor: '#000', 
+		            '-webkit-border-radius': '10px', 
+		            '-moz-border-radius': '10px', 
+		            opacity: .5, 
+		            color: '#fff'
+		        },
+	            message: '送出中..請稍後.'  }
+				);
+		
+		var trim = $.trim($("input[name='idno']").val());
+		$("input[name='idno']").val(trim); // for temporary
+		// 先檢查
+		$.ajax({
+			url: "ApplyTempPass",
+			type: "post",
+			async: false,
+			cache: false,
+			dataType: "json",
+			data: $("#qnrForm").serialize(),
+        	success: function(response) {
+	        	if (typeof response.error !== "undefined" && response.error.length>0){
+	        		$.unblockUI();
+	        		Swal.fire({
+					  icon: 'error',
+					  title: 'Oops...',
+					  text: response.error
+					})
+		       	}else if (typeof response.error !== "undefined" && response.error.length==0){
+	        		// success send data
+	        		$("input[name='op']").val('1');
+	        		$("#qnrForm").submit();
+		       	}else{
+		       		alert('[x]error');
+		       		$.unblockUI();
+		       	}
+        	},
+        	error: function() {
+        		alert("[X]error");
+        		$.unblockUI();
+        	}
+		});	
+	});	
+});
+</script>
+</body>
+</html>

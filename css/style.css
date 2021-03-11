@@ -1,0 +1,25 @@
+body {
+    min-height: 75rem;
+    padding-top: 3.5rem;
+    margin: auto;
+    font-family: "Roboto Light", "微軟正黑體",'Microsoft JhengHei', sans-serif ;
+    line-height: 1.5em;
+}
+.login-form {
+    width: 340px;
+    margin: 50px auto;
+    font-size: 15px;
+}
+.login-form form {
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    box-shadow: 0px 10px 8px rgba(0, 100, 0, 0.6);
+    padding: 30px;
+}
+.login-form h2 {
+    margin: 0 0 15px;
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}

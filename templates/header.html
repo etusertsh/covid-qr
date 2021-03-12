@@ -11,14 +11,20 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <script src="https://kit.fontawesome.com/9d1f3dce34.js" crossorigin="anonymous"></script>
+    <!--<script src="https://kit.fontawesome.com/9d1f3dce34.js" crossorigin="anonymous"></script>-->
     <title>防疫實名制</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">防疫實名制-QR Code</a>
-            <div class="d-flex"><a href="login.php" class="btn btn-sm btn-secondary"><span class="material-icons">login</span></a></div>
+            <a class="navbar-brand" href="index.php">防疫實名制-QR Code</a>
+            <div class="d-flex">
+                <!--{if $smarty.session.adminrole>0}-->
+                <a href="admin.php" class="btn btn-sm btn-info"><span class="material-icons">dashboard</span></a>
+                <!--{else}-->
+                <a href="login.php" class="btn btn-sm btn-secondary"><span class="material-icons">login</span></a>
+                <!--{/if}-->
+            </div>
         </div>
     </nav>
 

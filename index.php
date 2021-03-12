@@ -1,7 +1,6 @@
 <?php
 include_once('config/config.php');
 include_once('include/admin.class.php');
-
 $adm = new adm();
 //echo uniqid();
 $sm = new kl_smarty();

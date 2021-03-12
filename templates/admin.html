@@ -1,0 +1,187 @@
+<!--{include file='header.html'}-->
+<div class="row">
+    <div class="col-lg-4 col-md-12 mb-2">
+        <h5 class="text-success"><span class="material-icons">manage_accounts</span> <!--{$smarty.session.adminname}--></h5>
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4><span class="material-icons">dashboard</span> 管理選項</h4>
+            </div>
+            <div class="card-body bg-light">
+                <h5 class="card-title"></h5>
+                <p class="card-text">
+                    <!--{if $smarty.session.adminrole=='2'}-->
+                    <a href="?work=adduser" class="btn btn-sm btn-danger mx-auto mb-2"><span class="material-icons">person_add</span> 新增使用者</a>
+                    <a href="?work=userlist" class="btn btn-sm btn-secondary mx-auto mb-2"><span class="material-icons">people</span> 使用者列表</a>
+                    <!--{/if}-->
+                    <a href="?work=edituser&uid=<!--{$smarty.session.adminid}-->" class="btn btn-sm btn-primary mx-auto mb-2"><span class="material-icons">account_circle</span> 個人資料</a>
+                    <hr>
+                    <a href="?work=addactivity" class="btn btn-sm btn-danger mx-auto mb-2"><span class="material-icons">add_circle</span> 新增活動</a>
+                    <a href="?work=activitylist" class="btn btn-sm btn-secondary mx-auto mb-2"><span class="material-icons">list</span> 活動列表</a>
+                    <hr>
+                    <a href="login.php?action=signout" class="btn btn-sm btn-warning mx-auto mb-2"><span class="material-icons">exit_to_app</span> 登出</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-12 text-primary">
+    <!--{if $work == 'adduser'}-->
+    <div class="card border-primary shadow">
+        <div class="card-header bg-danger">
+            <h5 class="card-title text-white"><span class="material-icons">person_add</span> 新增使用者</h5>
+        </div>
+        <div class="card-body">
+        <form name="adduserform" class="form" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
+            <div class="form-group mb-2">
+                <label for="Inputname" class="form-label">使用者帳號*</label>
+                <input type="text" maxlength="20" class="form-control" id="Inputname" name="newname" ria-describedby="nameHelp" required="required" autocomplete="off" autofocus>
+    <div id="nameHelp" class="form-text">請輸入使用者帳號</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputpassword" class="form-label">使用者密碼*</label>
+                <input type="text" maxlength="20" class="form-control" id="Inputpassword" name="newpassword" ria-describedby="passwordHelp" required="required" autocomplete="off">
+    <div id="passwordHelp" class="form-text">因新增使用者的功能僅限於最高權限使用，故新增之密碼以明文顯示，且無需重複輸入確認。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputrealname" class="form-label">真實姓名*</label>
+                <input type="text" maxlength="10" class="form-control" id="Inputrealname" name="newrealname" ria-describedby="realnameHelp" required="required" autocomplete="off">
+    <div id="realnameHelp" class="form-text">請輸入使用者真實姓名，可包含職稱</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputoffice" class="form-label">單位*</label>
+                <input type="text" maxlength="10" class="form-control" id="Inputoffice" name="newoffice" ria-describedby="officeHelp" required="required" autocomplete="off">
+    <div id="officeHelp" class="form-text">請輸入使用者單位，會用於活動登入頁面，以及「個人資料保護事項」說明內容中。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputemail" class="form-label">電子郵件*</label>
+                <input type="email" maxlength="50" class="form-control" id="Inputemail" name="newemail" ria-describedby="emailHelp" required="required" autocomplete="off">
+    <div id="emailHelp" class="form-text">請輸入使用者電子郵件，用於「個人資料保護事項」說明內容中。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputtel" class="form-label">電話號碼</label>
+                <input type="text" maxlength="15" class="form-control" id="Inputtel" name="newtel" ria-describedby="telHelp" autocomplete="off">
+    <div id="telHelp" class="form-text">請輸入使用者手機號碼，非必需欄位。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputprivilege" class="form-label">管理權限</label>
+                <select id="Inputprivilege" name="newprivilege" class="form-control">
+                    <option value="1">普通（僅可新增與管理自己的活動）</option>
+                    <option value="2">最高（可新增與管理使用者與活動）</option>
+                </select>
+            </div>
+            <input type="hidden" name="action" value="toadduser">
+            <button type="submit" class="btn btn-sm btn-primary mx-auto"><span class="material-icons">done</span> 確定</button>
+            <button type="reset" class="btn btn-sm btn-secondary"><span class="material-icons">restart_alt</span> 取消</button>
+        </form>
+        </div>
+    </div>
+    <!--{elseif $work == 'userlist'}-->
+    <div class="card border-primary shadow">
+        <div class="card-header bg-secondary">
+            <h5 class="card-title text-white"><span class="material-icons">people</span> 使用者列表</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">帳號</th>
+                        <th scope="col">真實姓名</th>
+                        <th scope="col">單位</th>
+                        <th scope="col">權限</th>
+                        <th scope="col">功能</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--{$users=$adm->getAllUsers()}-->
+                    
+                    <!--{foreach key=key item=item from=$users}-->
+                    <tr<!--{if $item.status=='0'}--> class="text-info"<!--{/if}-->>
+                        <td><!--{if $item.status=='0'}--><span class="badge bg-secondary">已取消</span><!--{/if}--></td>
+                        <td><!--{$item.name}--></td>
+                        <td><!--{$item.realname}--></td>
+                        <td><!--{$item.office}--></td>
+                        <td><!--{if $item.privilege=='2'}-->管理<!--{else}-->普通<!--{/if}--></td>
+                        <td>
+                            <!--{if $item.status=='0'}-->
+                            <a href="?action=restore&uid=<!--{$key}-->" class="btn btn-sm btn-info">恢復</a>
+                            <!--{else}-->
+                            <a href="?work=edituser&uid=<!--{$key}-->" class="btn btn-sm btn-primary mx-auto">編輯</a>
+                            <a href="?action=disable&uid=<!--{$key}-->" class="btn btn-sm btn-danger mx-auto">刪除</a>
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!--{/foreach}-->
+                   
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>   
+
+    <!--{elseif $work == 'edituser'}-->
+    <!--{if $smarty.session.adminrole != '2'}-->
+    <!--{$uid=$smarty.session.adminid}-->
+    <!--{/if}-->
+    <!--{$user=$adm->getUserFromId($uid)}-->
+    <div class="card border-primary shadow">
+        <div class="card-header bg-primary">
+            <h5 class="card-title text-white"><span class="material-icons">account_circle</span> 使用者資訊</h5>
+        </div>
+        <div class="card-body">
+        <form name="adduserform" class="form" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
+            <div class="form-group mb-2">
+                <label for="Inputname" class="form-label">使用者帳號*</label>
+                <input type="text" maxlength="20" class="form-control" id="Inputname" name="newname" value="<!--{$user.name}-->" disabled aria-describedby="nameHelp" required="required" autocomplete="off">
+    <div id="nameHelp" class="form-text">使用者帳號無法修改</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputpassword" class="form-label">使用者密碼</label>
+                <input type="text" maxlength="20" class="form-control" id="Inputpassword" name="newpassword" aria-describedby="passwordHelp" autocomplete="off">
+    <div id="passwordHelp" class="form-text">如果不需修改密碼者，請保持空白。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputrealname" class="form-label">真實姓名*</label>
+                <input type="text" maxlength="10" class="form-control" id="Inputrealname" name="newrealname" value="<!--{$user.realname}-->" aria-describedby="realnameHelp" required="required" autocomplete="off" autofocus>
+    <div id="realnameHelp" class="form-text">請輸入使用者真實姓名，可包含職稱</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputoffice" class="form-label">單位*</label>
+                <input type="text" maxlength="10" class="form-control" id="Inputoffice" name="newoffice" value="<!--{$user.office}-->" aria-describedby="officeHelp" required="required" autocomplete="off">
+    <div id="officeHelp" class="form-text">請輸入使用者單位，會用於活動登入頁面，以及「個人資料保護事項」說明內容中。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputemail" class="form-label">電子郵件*</label>
+                <input type="email" maxlength="50" class="form-control" id="Inputemail" name="newemail" value="<!--{$user.email}-->" aria-describedby="emailHelp" required="required" autocomplete="off">
+    <div id="emailHelp" class="form-text">請輸入使用者電子郵件，用於「個人資料保護事項」說明內容中。</div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Inputtel" class="form-label">電話號碼</label>
+                <input type="text" maxlength="15" class="form-control" id="Inputtel" name="newtel" value="<!--{$user.tel}-->" aria-describedby="telHelp" autocomplete="off">
+    <div id="telHelp" class="form-text">請輸入使用者手機號碼，非必需欄位。</div>
+            </div>
+            <!--{if $smarty.session.adminrole=='2'}-->
+            <div class="form-group mb-2">
+                <label for="Inputprivilege" class="form-label">管理權限</label>
+                <select id="Inputprivilege" name="newprivilege" class="form-control">
+                    <option value="1"<!--{if $user.privilege=='1'}--> selected<!--{/if}-->>普通（僅可新增與管理自己的活動）</option>
+                    <option value="2"<!--{if $user.privilege=='2'}--> selected<!--{/if}-->>最高（可新增與管理使用者與活動）</option>
+                </select>
+            </div>
+            <!--{/if}-->
+            <input type="hidden" name="uid" value="<!--{$user.id}-->">
+            <input type="hidden" name="action" value="toedituser">
+            <button type="submit" class="btn btn-sm btn-primary mx-auto"><span class="material-icons">done</span> 確定</button>
+            <button type="reset" class="btn btn-sm btn-secondary"><span class="material-icons">restart_alt</span> 取消</button>
+        </form>
+        </div>
+    </div>
+    <!--{elseif $work == 'addactivity'}-->
+
+    <!--{elseif $work == 'activitylist'}-->
+
+    <!--{else}-->
+
+    <!--{/if}-->
+    </div>
+</div>
+<!--{include file='footer.html'}-->

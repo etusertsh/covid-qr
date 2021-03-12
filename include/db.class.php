@@ -30,14 +30,14 @@ class db {
 	function login($name, $pw){
 		$name = mysqli_real_escape_string($this->_dbconn,$name);
 		$pw = mysqli_real_escape_string($this->_dbconn,$pw);
-		$sql = "Select id, realname From user Where name='$name' And pw=MD5('$pw') Limit 1";
+		$sql = "Select id, realname,privilege From user Where name='$name' And pw=MD5('$pw') Limit 1";
 		echo $sql;
 		$rs = $this->_dbconn->query($sql);
 		if($rs->num_rows > 0){
 			$temprs = $rs->fetch_assoc();
 			$_SESSION['adminrole'] = $temprs['privilege'];
 			$_SESSION['adminid'] = $temprs['id'];
-			$_SESSION['adminname'] = $temprs['realname'];
+			$_SESSION['adminname'] = $temprs['office'] . $temprs['realname'];
 			$rs->free();
 			return true;
 			exit;
@@ -63,6 +63,9 @@ class db {
 	}
 	function close(){
 		$this->_dbconn->close();
+	}
+	function prepare($str){
+		return $this->_dbconn->prepare($str);
 	}
 }
 ?>

@@ -2,10 +2,7 @@
 include_once('config/config.php');
 include_once('include/admin.class.php');
 
-if($_SESSION['adminrole'] > 0){
-    header('Location: admin.php');
-    exit;
-}
+
 $adm = new adm();
 //action
 if($action == 'signup'){
@@ -22,7 +19,16 @@ if($action == 'signup'){
         exit;
     }
 }
+if($action=='signout'){
+    session_destroy();
+    header('Location: index.php');
+}
 $adm->_db->close();
+
+if($_SESSION['adminrole'] > 0){
+    header('Location: admin.php');
+    exit;
+}
 $sm = new kl_smarty();
 $sm -> display('login.html');
 ?>

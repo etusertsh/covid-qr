@@ -166,7 +166,7 @@ class adm {
 	}
 	function getVisitorUuidFromAidTelName($aid, $tel, $name){
 		if($aid > 0 && $tel != '' && $name != ''){
-			$sql = "Select id, uniqid From vistor Where aid='$aid' And tel='$tel' And realname='$name' Limit 1";
+			$sql = "Select id, uniqid From vistor Where aid='$aid' And tel='$tel' And realname='$name' And expiredate >= NOW() Limit 1";
 			echo $sql;
 			$res = $this->_db->query($sql);
 			return $res[0];

@@ -10,7 +10,7 @@ if($qrcontent == ''){
         $aid=$tmp[1];
         $uid=$tmp[3];
         $v=$adm->getVisitorFromUuid($aid, $uid);
-        echo 'ok,' . $v['realname'] . ' ' . substr($v['tel'], 0, -4) . '****';
+        echo 'ok,' . $v['realname'] . ' ' . substr($v['tel'], 0, -4) . '****' . ($v['expiredate'] < date('Y-m-d') ? ' (已過期)' : '');
     }else{
         echo 'error,QR Code 掃描內容錯誤';
     }

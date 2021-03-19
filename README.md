@@ -5,5 +5,10 @@
 1、多人管理，多活動系統，依據不同活動性質產生對應的訪客 QR Code。<br>
 2、活動分為短期型（有結束時間）及常設型（無固定時間）<br>
 3、程式為 PHP + MySQL，採用 Smarty2 模板引擎。<br>
-4、QR Code Scanner Tools 採用 instascan 的 JS 程式。<br>
+4、QR Code Scanner Tools 採用 instascan 的 JS 程式。<br><br>
+
+安裝：<br>
+1、MySQL資料庫欄位結構 mysql/covid-qr.sql
+2、參數修改 config/config.php 及 include/db.class.php
+3、因使用 instascan 的 JS QRCode Tools，須運作於 HTTPS 下。
 

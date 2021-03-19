@@ -185,6 +185,17 @@ class adm {
 			return false;
 		}
 	}
+	function getAllVisitorFromAid($aid){
+		if($aid>0){
+			$sql ="Select A.*, B.scandate From vistor As A Left Join scanrecord As B On A.uniqid=B.uniqid Where A.aid='$aid' Order By B.scandate desc, A.id desc";
+			$res = $this->_db->query($sql, 'id');
+			//echo $sql;
+			//print_r($res);
+			return $res;
+		}else{
+			return false;
+		}
+	}
 	function scanResult($str){		
 		$tmp = explode('-', $str);
 		$aid = $tmp[1];

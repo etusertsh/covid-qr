@@ -292,7 +292,7 @@
             <h5 class="card-title text-white"><span class="material-icons">list</span> 活動列表</h5>
         </div>
         <div class="card-body">
-            <table class="table table-sm table-hover table-striped">
+            <table class="table table-fluid table-hover table-striped">
                 <thead>
                     <tr>
                         <th scope="col">活動名稱</th>
@@ -327,6 +327,7 @@
                         <a href="?work=editact&aid=<!--{$key}-->" class="btn btn-sm btn-primary mx-auto">編輯</a>
                         <a href="?action=disableact&aid=<!--{$key}-->" class="btn btn-sm btn-danger mx-auto">刪除</a>
                         <!--{/if}-->
+                        <a href="?work=visitorlist&aid=<!--{$key}-->" class="btn btn-sm btn-dark mx-auto">訪客名單</a>
                         <a href="https://<!--{$smarty.server.HTTP_HOST}-->/covid-qr/scanner.php?aid=<!--{$key}-->" target="_blank" class="btn btn-sm btn-warning mx-auto">掃瞄工具頁</a>
                         <a href="visitor.php?aid=<!--{$key}-->" target="_blank" class="btn btn-sm btn-secondary mx-auto">活動說明頁</a>
                         <a href="visitor.php?aid=<!--{$key}-->&act=registor" target="_blank" class="btn btn-sm btn-success mx-auto">訪客登錄頁</a>
@@ -387,6 +388,40 @@
         </form>
         <!--{/if}-->
         </div>
+        <!--{/if}-->
+    <!--{elseif $work=='visitorlist' && $aid>0}-->
+        <!--{if $smarty.session.adminrole>0}--> 
+        <!--{$thisact = $adm->getActivityFromId($aid)}-->           
+        <div class="card border shadow">
+            <div class="card-header bg-info">
+                <h5 class="card-title text-white"><span class="material-icons">people</span> <!--{$thisact.name}--> 訪客名單</h5>
+            </div>
+            <div class="card-body">    
+            <!--{$visitor=$adm->getAllVisitorFromAid($aid)}-->
+            <table class="table table-sm table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">訪客姓名</th>
+                        <th scope="col">手機</th>
+                        <th scope="col">同行人數</th>
+                        <th scope="col">申請時間</th>
+                        <th scope="col">QRCode期限</th>
+                        <th scope="col">掃描時間</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--{foreach key=key item=item from=$visitor}-->
+                    <tr>
+                        <td><!--{$item.realname}--></td>
+                        <td><!--{$item.tel}--></td>
+                        <td><!--{$item.num}--></td>
+                        <td><!--{$item.createdate}--></td>
+                        <td><!--{$item.expiredate}--></td>
+                        <td><strong class="text-danger"><!--{$item.scandate}--></strong></td>
+                    </tr>
+                    <!--{/foreach}-->
+                </tbody>
+            </table>
         <!--{/if}-->
     <!--{/if}-->
     </div>

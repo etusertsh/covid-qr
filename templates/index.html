@@ -4,13 +4,29 @@
 <!--{include file='covid-message.html'}-->
 </div>
 <div class="col-md-6 col-sm-12">
-<div class="card mx-auto">
-    <div class="card-header">        
-    </div>
+<div class="card mx-auto border-primary">
+    <div class="card-header bg-primary">        
+    <h5 class="card-title text-white">實名制活動列表</h5></div>
     <div class="card-body">
-        <h5 class="card-title">實名制活動列表</h5>
+        
         <p class="card-text">防疫實名制採「<span class="text-primary">事先登記</span>」方式，請選擇以下欲參加之活動，完成個人資料登記後，系統會自動產生該活動之QRCode及序號頁面，入場時請出示掃瞄後入場。</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <!--{if $act2=$adm->getOpenActivityFromType('2')}-->
+        <!--{foreach key=key item=item from=$act2}-->
+        <div class="col-md-12 mb-2 border border-danger rounded">
+            <a href="visitor.php?aid=<!--{$key}-->&act=registor" class="btn btn-lg"><h5 class="text-danger"><span class="material-icons">local_activity</span> 活動：<!--{$item.name}--> (<!--{$item.closedate}-->)</h5></a>
+            <small class="text-info"><!--{$item.ps}--></small>
+        </div>
+        <!--{/foreach}-->
+        <!--{/if}-->
+        <!--{if $act1=$adm->getOpenActivityFromType('1')}-->
+        <div class="row">
+        <!--{foreach key=key item=item from=$act1}-->
+        <div class="col-md-6 col-sm-12 mb-2">
+            <a href="visitor.php?aid=<!--{$key}-->&act=registor" class="btn btn-lg text-success"><span class="material-icons">meeting_room</span> <!--{$item.name}--></a>
+        </div>    
+        <!--{/foreach}-->
+        </div>
+        <!--{/if}-->
     </div>
     <div class="card-footer">
 

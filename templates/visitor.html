@@ -1,0 +1,166 @@
+<!--{include file='header.html'}-->
+<!--{$thisact = $adm->getActivityNameFromId($aid)}-->
+<!--{$theoffice=$thisact.office}-->
+<!--{$theemail=$thisact.email}-->
+
+<div class="row">
+    <div class="col-md-6 col-sm-12 mb-2">
+        <!--{if $act == '' && $aid > 0}-->        
+        <div class="card mx-auto">
+            <div class="card-header bg-warning"><h5 class="text-success"><!--{$thisact.name}--></h5></div>
+            <div class="card-body">
+                <p class="card-title mb-0">防疫實名制採「事先登記」方式，請掃瞄下方QRCode或點選網址，完成個人資料登記後，系統會自動產生QRCode及序號頁面，入場時請出示掃瞄後入場。<br><a href="<!--{$url}-->">點選本連結前往訪客登記頁面</a></p>
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=<!--{$encodeurl}-->" width="85%">                
+            </div>
+        </div>        
+        <!--{/if}-->
+        <!--{if $act=='error' && $aid > 0}-->
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">輸入資料有誤，請回到前一頁重新輸入。</h5>
+            <a href="?aid=<!--{$aid}-->&act=registor">重新輸入</a>
+        </div>
+        <!--{/if}-->
+        <!--{if $act=='registor' && $aid>0}-->
+        <h3 class="text-success"><!--{$thisact.name}--></h3>
+        <div class="card mx-auto">
+            <div class="card-header">
+                <h5 class="card-title">基本資料 Basic information</h5>
+            </div>
+            <div class="card-body">                
+                <form class="form" action="<!--{$smarty.server.PHP_SELF}-->" method="post">                    
+                    <div class="form-group row">
+                        <label for="username" class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">訪客姓名* <span class="font-italic text-muted">Visitor name</span></label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" id="username" name="username"  value="" placeholder="" maxlength="10" required autofocus>
+                            <small id="usernameHelp" class="form-text text-muted"><strong></strong></small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="usertel"  class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">手機號碼* <span class="font-italic text-muted">Mobile phone</span></label>
+                        <div class="col-lg-9">
+                            <input class="form-control" maxlength="12" type="tel" id="usertel" name="usertel"  value="" placeholder="" required>
+                            <small id="usertelHelp" class="form-text text-danger"><strong>範例：0912345678，限填台灣地區手機號碼</strong></small>						
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="useremail" class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">電子郵件 <span class="font-italic text-muted">Email</span></label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="email" id="useremail" name="useremail"  value="" placeholder="" maxlength="30" autocomplete="off">
+                            <small id="useremailHelp" class="form-text text-muted"><strong>非必要欄位 Optional</strong></small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="usernum" class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">同行人數 <span class="font-italic text-muted">Num. of accompany</span></label>
+                        <div class="col-lg-9">
+                            <select id="usernum" name="usernum" class="form-control">
+                                <option value="0" selected>僅本人 Only me</option>
+                                <option value="1">+1</option>
+                                <option value="2">+2</option>
+                                <option value="3">+3</option>
+                                <option value="4">+4</option>
+                                <option value="5">+5 and more</option>
+                            </select>
+                            <small id="usernumHelp" class="form-text text-muted"><strong></strong></small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="randomCode" class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">驗證碼 <span class="font-italic">Code</span></label>
+                        <div class="col-lg-9">
+                            <div class="input-group mt-3 mb-3">
+                                <img width="120" id="randomCodeImg" src="captcha.php?dummy=<!--{$smarty.now|date_format:'%Y%m%d%H%M%S'}-->" /> <!-- src='GetRandomCodeImage' -->
+                                <div class="input-group-append">
+                                    <button type="button" id="changeRandomCode" class="btn btn-success" onclick="var random = Math.random();document.getElementById('randomCodeImg').src='captcha.php?dummy='+random;">換一張</button>
+                                </div>
+                            </div>						
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="randomCode" class="col-lg-3 col-form-label form-control-label text-sm-left text-md-right">請輸入驗證碼 <span class="font-italic"></span></label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" maxlength="4" id="randomCode" name="randomCode" placeholder="4碼英數字組合" required autocomplete="off">	
+                        </div>
+                    </div>
+                    <div class="form-group row">                        
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked onchange="if(this.checked==true){document.getElementById('submit-btn').disabled=false;}else{document.getElementById('submit-btn').disabled=true;}">
+                                <label class="form-check-label text-primary" for="flexCheckChecked">
+                                  本人已確認上述個人資料正確性，並充份瞭解上開告知事項內容。
+                                </label>
+                            </div>                           
+                          </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        <div class="col-lg-9">
+                            <input type="hidden" name="aid" value="<!--{$aid}-->">
+                            <input type="hidden" name="uuid" value="<!--{$uuid}-->">
+                            <input type="hidden" name="action" value="signup">
+                            <input type="submit" id="submit-btn" class="btn btn-info btn-block text-light" style="width: 100%;" value="送出">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--{/if}-->
+        <!--{if $act=='done' && $aid > 0}-->
+            <!--{if $uuid == ''}-->            
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">輸入資料有誤，請回到前一頁重新輸入。</h5>
+            <a href="index.php">重新輸入</a>
+        </div>
+            <!--{else}-->
+            <!--{$visitor=$adm->getVisitorFromUuid($aid, $uuid)}-->
+            <h3 class="text-success"><!--{$thisact.name}--></h3>
+            <div class="card mx-auto">
+            <div class="card-header">
+                <h5 class="card-title">申請完成 Done</h5>                
+            </div>
+            <div class="card-body">
+                <h5 class="col-12 text-center"><strong class="text-danger"><!--{$aid}-->-<!--{$visitor.id}-->-<!--{$visitor.uniqid}--></strong></h5>
+                <h5 class="col-12 text-center">訪客：<strong class="text-primary"><!--{$visitor.realname}--></strong></h5>
+                <h5 class="col-12 text-center">手機：<strong class="text-danger"><!--{$visitor.tel}--></strong></h5>
+                <div class="col-12 text-center">
+                    <img src="https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=KL-<!--{$aid}-->-<!--{$visitor.id}-->-<!--{$visitor.uniqid}-->" width="75%"></div>
+                <div class="col-12 text-center">QR Code 有效期限：<!--{$visitor.expiredate}--></div>
+                <!--{if $visitor.num>0}-->
+                <div class="col-12 text-success text-center">同行人數：<!--{$visitor.num}-->人</div>
+                <!--{/if}-->
+                <div class="col-12 text-info">為了保護您的個人資料，本頁面將於<span class="text-primary" id="timerdisplay">600</span>秒後，自動跳轉至申請頁面。您可以將本畫面截圖下來保存，於進場時出示掃瞄進入。</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var seconds = 600; // seconds for HTML
+            var foo; // variable for clearInterval() function
+
+            function redirect() {
+                document.location.href = '?aid=<!--{$aid}-->';
+            }
+
+            function updateSecs() {
+                document.getElementById("timerdisplay").innerHTML = seconds;
+                seconds--;
+                if (seconds == -1) {
+                    clearInterval(foo);
+                    redirect();
+                }
+            }
+
+            function countdownTimer() {
+                foo = setInterval(function () {
+                    updateSecs()
+                }, 1000);
+            }
+
+            countdownTimer();
+        </script>
+            <!--{/if}-->
+        <!--{/if}-->
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <!--{include file='covid-message.html'}-->
+    </div>
+</div>
+
+<!--{include file='footer.html'}-->

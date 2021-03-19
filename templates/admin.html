@@ -128,7 +128,7 @@
             <h5 class="card-title text-white"><span class="material-icons">account_circle</span> 使用者資訊</h5>
         </div>
         <div class="card-body">
-        <form name="adduserform" class="form" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
+        <form name="edituserform" class="form" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
             <div class="form-group mb-2">
                 <label for="Inputname" class="form-label">使用者帳號*</label>
                 <input type="text" maxlength="20" class="form-control" id="Inputname" name="newname" value="<!--{$user.name}-->" disabled aria-describedby="nameHelp" required="required" autocomplete="off">
@@ -136,8 +136,12 @@
             </div>
             <div class="form-group mb-2">
                 <label for="Inputpassword" class="form-label">使用者密碼</label>
-                <input type="text" maxlength="20" class="form-control" id="Inputpassword" name="newpassword" aria-describedby="passwordHelp" autocomplete="off">
+                <input type="text" maxlength="20" class="form-control" id="Inputpassword" name="newpassword" aria-describedby="passwordHelp" autocomplete="off" onchange="t=document.getElementById('Inputpwdchangecheck');if(this.value ==''){t.checked=''; t.disabled='disabled';}else{t.disabled='';}">
     <div id="passwordHelp" class="form-text">如果不需修改密碼者，請保持空白。</div>
+            </div>
+            <div class="form-check m-2">                
+                <input type="checkbox" class="form-check-input" id="Inputpwdchangecheck" name="pwdcheck" value="1" disabled="disabled">
+                <lable for="Inputpwdchangecheck" class="form-check-label">確定修改密碼？</lable>
             </div>
             <div class="form-group mb-2">
                 <label for="Inputrealname" class="form-label">真實姓名*</label>
@@ -175,12 +179,215 @@
         </form>
         </div>
     </div>
-    <!--{elseif $work == 'addactivity'}-->
+    <!--{elseif $work == 'addactivity' && $smarty.session.adminrole>0}-->
+    <div class="card border-secondary shadow">
+        <div class="card-header bg-danger">
+            <h5 class="card-title text-white"><span class="material-icons">add_circle</span> 新增活動</h5>
+        </div>
+        <div class="card-body">
+        <!--{if $acttype == ''}-->
+        <h5>步驟一：請選擇活動類型：</h5>
+        <div class="row" id="activity-type">
+            <div class="col-md-6 border border-info rounded mx-auto">
+                <a href="?work=addactivity&acttype=type2" class="btn btn-lg btn-warning m-3"><strong>短期型</strong></a>
+                <div class="text-secondary">
+                    <p>短期型指<span class="text-primary">有結束時間</span>的活動，此類別的實名制管制將<span class="text-primary">不設定</span>QRCode的有效期間，一律以活動結束時間為該活動QRCode之有效期限。<br>本活動QRCode之申請及掃瞄紀錄將保存至活動結束後28日。</p>
+                </div>
+            </div>
+            <div class="col-md-6 border border-info rounded mx-auto">
+                <a href="?work=addactivity&acttype=type1" class="btn btn-lg btn-danger m-3"><strong>常設型</strong></a>
+                <div class="text-secondary">
+                    <p>常設型指<span class="text-primary">無明確結束時間</span>之使用情境，一般為設施、場所之<span class="text-primary">門禁管制</span>。此類活動必須設定QRCode之有效期間（1日、7日、14日及28日）<br>申請及掃瞄紀錄將保留以最後一筆掃瞄紀錄日期起算28日。</p>
+                </div>
+            </div>
+        </div>
+        <!--{elseif $acttype == 'type1'}-->
+        <h5>步驟二：設定「常設型」活動內容：</h5>
+        <small class="text-danger">無結束時間，需設定 QRCode 有效時間。</small>
+        <form name="addactivityform1" class="form text-success" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
+            <div class="form-group row mb-2">
+                <label for="ActivityName" class="col-sm-3 col-form-label">活動名稱*</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="ActivityName" name="ActivityName" value="" required autocomplete="off" autofocus>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="QrDuration" class="col-sm-3 col-form-label">QRCode 有效日期*</label>
+                <div class="col-sm-9">
+                  <select class="form-control" id="QrDuration" name="QrDuration" required>
+                      <option value="1">1日</option>
+                      <option value="7" selected>7日</option>
+                      <option value="14">14日</option>
+                      <option value="28">28日</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="ActivityPs" class="col-sm-3 col-form-label">備註</label>
+                <div class="col-sm-9">
+                    <textarea rows="4" class="form-control" id="ActivityPs" name="ActivityPs"></textarea>    
+                </div>
+                <small>備註說明事項會出現於活動列表與活動申請及掃瞄頁中。</small>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="ActivityOpen" class="col-sm-3 col-form-label">是否啟用？</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="ActivityOpen" name="ActivityOpen" required>
+                        <option value="1">是</option>
+                        <option value='0'>暫不開放</option>
+                    </select>
+                    <small class="text-info">本功能設定為<span class="text-primary">啟用</span>時，將會顯示於首頁活動列表供訪客選擇。設定成<span class="text-danger">暫不開放</span>，則不顯示於首頁活動列表，需提供訪客登錄頁之網址，其餘登錄及掃瞄功能均正常可操作。</small>    
+                </div>
+            </div>
+            <input type="hidden" name="ActivityType" value="1">
+            <input type="hidden" name="action" value="toaddactivity1">
+            <button class="btn btn-sm btn-primary mx-auto" type="submit">確定新增活動</button>
+            <button class="btn btn-sm btn-secondary mx-auto" type="reset" onclick="self.location='?work=addactivity';">取消</button>
+        </form>
 
-    <!--{elseif $work == 'activitylist'}-->
-
-    <!--{else}-->
-
+        <!--{elseif $acttype == 'type2'}-->
+        <h5>步驟二：設定「短期型」活動內容：</h5>
+        <small class="text-danger">需設定活動結束時間。</small>
+        <form name="addactivityform2" class="form text-success" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
+            <div class="form-group row mb-2">
+                <label for="ActivityName" class="col-sm-3 col-form-label">活動名稱*</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="ActivityName" name="ActivityName" value="" required autocomplete="off" autofocus>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="ActivityClose" class="col-sm-3 col-form-label">活動結束*</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" id="ActivityClose" name="ActivityClose" value="<!--{$smarty.now|date_format:'%Y-%m-%d'}-->" min="<!--{$smarty.now|date_format:'%Y-%m-%d'}-->" required autocomplete="off" autofocus>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="ActivityPs" class="col-sm-3 col-form-label">備註</label>
+                <div class="col-sm-9">
+                    <textarea rows="4" class="form-control" id="ActivityPs" name="ActivityPs"></textarea>    
+                </div>
+                <small>備註說明事項會出現於活動列表與活動申請及掃瞄頁中。</small>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="ActivityOpen" class="col-sm-3 col-form-label">是否啟用？</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="ActivityOpen" name="ActivityOpen" required>
+                        <option value="1">是</option>
+                        <option value='0'>暫不開放</option>
+                    </select>
+                    <small class="text-info">本功能設定為<span class="text-primary">啟用</span>時，將會顯示於首頁活動列表供訪客選擇。設定成<span class="text-danger">暫不開放</span>，則不顯示於首頁活動列表，需提供訪客登錄頁之網址，其餘登錄及掃瞄功能均正常可操作。</small>    
+                </div>
+            </div>
+            <input type="hidden" name="ActivityType" value="2">
+            <input type="hidden" name="action" value="toaddactivity1">
+            <button class="btn btn-sm btn-primary mx-auto" type="submit">確定新增活動</button>
+            <button class="btn btn-sm btn-secondary mx-auto" type="reset" onclick="self.location='?work=addactivity';">取消</button>
+        </form>
+        <!--{/if}-->
+        </div>
+    </div>
+    <!--{elseif $work == 'activitylist' && $smarty.session.adminrole>0}-->
+    <div class="card border shadow">
+        <div class="card-header bg-secondary">
+            <h5 class="card-title text-white"><span class="material-icons">list</span> 活動列表</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">活動名稱</th>
+                        <th scope="col">類別</th>
+                        <th scope="col">QRCode期限</th>
+                        <th scope="col">結束日期</th>
+                        <th scope="col">建立者</th>
+                        <th scope="col">備註</th>                   
+                    </tr>                    
+                </thead>
+                <tbody class="text-primary">
+                <!--{if $smarty.session.adminrole=='2'}-->
+                <!--{$acts=$adm->getAllActivity()}-->
+                <!--{else}-->
+                <!--{$acts=$adm->getActivityFromAdminid($smarty.session.adminid)}-->
+                <!--{/if}-->
+                <!--{foreach key=key item=item from=$acts}-->
+                <!--{if $key>0}-->
+                <tr>
+                    <td><!--{$item.name}--><!--{if $item.openflag=='0'}-->&nbsp;&nbsp;<span class="badge bg-danger">暫不開放</span><!--{/if}--></td>
+                    <td><!--{if $item.type=='1'}-->常設<!--{else}-->短期<!--{/if}--></td>
+                    <td><!--{if $item.type=='1'}--><!--{$item.qrduration}-->天<!--{/if}--></td>
+                    <td><!--{if $item.type=='2'}--><!--{$item.closedate}--><!--{/if}--></td>
+                    <td><!--{$item.username}--></td>
+                    <td><!--{$item.ps}--></td>                    
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <!--{if $item.openflag=='0'}-->
+                        <a href="?action=restoreact&aid=<!--{$key}-->" class="btn btn-sm btn-info mx-auto">恢復</a>
+                        <!--{else}-->
+                        <a href="?work=editact&aid=<!--{$key}-->" class="btn btn-sm btn-primary mx-auto">編輯</a>
+                        <a href="?action=disableact&aid=<!--{$key}-->" class="btn btn-sm btn-danger mx-auto">刪除</a>
+                        <!--{/if}-->
+                        <a href="https://<!--{$smarty.server.HTTP_HOST}-->/covid-qr/scanner.php?aid=<!--{$key}-->" target="_blank" class="btn btn-sm btn-warning mx-auto">掃瞄工具頁</a>
+                        <a href="visitor.php?aid=<!--{$key}-->" target="_blank" class="btn btn-sm btn-secondary mx-auto">活動說明頁</a>
+                        <a href="visitor.php?aid=<!--{$key}-->&act=registor" target="_blank" class="btn btn-sm btn-success mx-auto">訪客登錄頁</a>
+                    </td>
+                </tr>
+                <!--{/if}-->
+                <!--{/foreach}-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--{elseif $work=='editact' && $aid>0}-->
+        <!--{if $smarty.session.adminrole>0}-->            
+    <div class="card border shadow">
+        <div class="card-header bg-primary">
+            <h5 class="card-title text-white"><span class="material-icons">edit</span> 編輯活動 - <!--{if $thisact.type=='1'}-->常設型<!--{else}-->短期型<!--{/if}--></h5>
+        </div>
+        <div class="card-body">
+        <!--{if $thisact = $adm->getActivityFromId($aid)}-->   
+        <form name="editactivityform" class="form text-success" action="<!--{$smarty.server.PHP_SELF}-->" method="post">
+            <div class="form-group row mb-2">
+                <label for="ActivityName" class="col-sm-3 col-form-label">活動名稱*</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="ActivityName" name="ActivityName" value="<!--{$thisact.name}-->" required autocomplete="off" autofocus>
+                </div>
+            </div>
+            <!--{if $thisact.type=='1'}-->
+            <div class="form-group row mb-2">
+                <label for="QrDuration" class="col-sm-3 col-form-label">QRCode 有效日期*</label>
+                <div class="col-sm-9">
+                  <select class="form-control" id="QrDuration" name="QrDuration" required>
+                      <option value="1"<!--{if $thisact.qrduration=='1'}--> selected<!--{/if}-->>1日</option>
+                      <option value="7"<!--{if $thisact.qrduration=='7'}--> selected<!--{/if}-->>7日</option>
+                      <option value="14"<!--{if $thisact.qrduration=='14'}--> selected<!--{/if}-->>14日</option>
+                      <option value="28"<!--{if $thisact.qrduration=='28'}--> selected<!--{/if}-->>28日</option>
+                  </select>
+                </div>
+            </div>
+            <!--{else}-->
+            <div class="form-group row mb-2">
+                <label for="ActivityClose" class="col-sm-3 col-form-label">活動結束*</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" id="ActivityClose" name="ActivityClose" value="<!--{$thisact.closedate}-->" min="<!--{$smarty.now|date_format:'%Y-%m-%d'}-->" required autocomplete="off" autofocus>
+                </div>
+            </div>
+            <!--{/if}-->
+            <div class="form-group row mb-2">
+                <label for="ActivityPs" class="col-sm-3 col-form-label">備註</label>
+                <div class="col-sm-9">
+                    <textarea rows="4" class="form-control" id="ActivityPs" name="ActivityPs"><!--{$thisact.ps}--></textarea>    
+                </div>
+                <small>備註說明事項會出現於活動列表與活動申請及掃瞄頁中。</small>
+            </div>            
+            <input type="hidden" name="action" value="toeditactivity">
+            <input type="hidden" name="aid" value="<!--{$aid}-->">
+            <button class="btn btn-sm btn-primary mx-auto" type="submit">確定修改</button>
+            <button class="btn btn-sm btn-secondary mx-auto" type="reset" onclick="self.location='?work=activitylist';">取消</button>
+        </form>
+        <!--{/if}-->
+        </div>
+        <!--{/if}-->
     <!--{/if}-->
     </div>
 </div>

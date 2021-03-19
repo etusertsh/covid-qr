@@ -1,5 +1,5 @@
 body {
-    min-height: 75rem;
+    min-height: 30rem;
     padding-top: 3.5rem;
     margin: auto;
     font-family: "Roboto Light", "微軟正黑體",'Microsoft JhengHei', sans-serif ;
@@ -22,4 +22,7 @@ body {
 .form-control, .btn {
     min-height: 38px;
     border-radius: 2px;
+}
+#activity-type > div:hover{
+    background: #FFFFCC;
 }

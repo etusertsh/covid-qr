@@ -60,10 +60,48 @@ if($action=='toedituser' && $_SESSION['adminrole'] > 0 && $uid > 0){
     }
 
 }
+if($action=='toaddactivity1' && $_SESSION['adminrole']>0){
 
+    if($adm->addActivity($_POST, $_POST['ActivityType'])){
+        header('Location: ?work=activitylist');
+        exit;
+    }else{
+        header('Location: index.php');
+        exit;
+    }
+    
+}
+if($action=='restoreact' && $aid > 0 && $_SESSION['adminrole']>0){
+    if($adm->setActivityOpen('1', $aid)){
+        $work='activitylist';
+    }else{
+        //header('Location: index.php');
+        //exit;
+    }
+}
+if($action=='disableact' && $aid > 0 && $_SESSION['adminrole']>0){
+    if($adm->setActivityOpen('0', $aid)){
+        $work='activitylist';
+    }else{
+        header('Location: index.php');
+        exit;
+    }
+}
+if($action=='toeditactivity' && $aid>0 && $_SESSION['adminrole']>0){
+    if($adm->changActivity($_POST, $aid)){
+        header('Location: ?work=activitylist');
+        exit;
+    }else{
+        header('Location: index.php');
+        exit;
+    }
+}
+//print_r($_SERVER);
 $sm = new kl_smarty();
 $sm->assign('adm', $adm);
 $sm->assign('work', $work);
 $sm->assign('uid', $uid);
+$sm->assign('acttype', $acttype);
+$sm->assign('aid', $aid);
 $sm -> display('admin.html');
 ?>

@@ -11,5 +11,8 @@
 安裝：<br>
 1、MySQL資料庫欄位結構 mysql/covid-qr.sql<br>
 2、參數修改 config/config.php 及 include/db.class.php<br>
-3、因使用 instascan 的 JS QRCode Tools，須運作於 HTTPS 下。<br>
+3、因使用 instascan 的 JS QRCode Tools，須運作於 HTTPS 下。
+<br>
+**** HELP **** HELP ****<br>
+未製作管理帳號申請程序，有大神可以教教如何寫 Google 帳號認證的程序嗎！<br><br>
 

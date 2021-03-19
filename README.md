@@ -8,7 +8,7 @@
 4、QR Code Scanner Tools 採用 instascan 的 JS 程式。<br><br>
 
 安裝：<br>
-1、MySQL資料庫欄位結構 mysql/covid-qr.sql
-2、參數修改 config/config.php 及 include/db.class.php
-3、因使用 instascan 的 JS QRCode Tools，須運作於 HTTPS 下。
+1、MySQL資料庫欄位結構 mysql/covid-qr.sql<br>
+2、參數修改 config/config.php 及 include/db.class.php<br>
+3、因使用 instascan 的 JS QRCode Tools，須運作於 HTTPS 下。<br>
 
